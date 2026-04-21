@@ -1,2 +1,5 @@
-# pascal-astronomy
-Astronomy related Pascal programs
+# Pascal Astronomy
+
+Astronomy related Pascal programs.
+
+## [DelphiMoon examples](delphimoon-examples)
