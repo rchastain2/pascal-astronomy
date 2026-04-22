@@ -15,7 +15,7 @@ PFLAGS += -vq
 PFLAGS += -vm5025
 PFLAGS += -vm5027
 
-default: out/eclipses.md
+default: $(OUT)/eclipses.md
 all: $(TARGETS)
 
 $(DMOON):
