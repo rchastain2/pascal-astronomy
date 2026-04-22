@@ -1,5 +1,5 @@
 
-DM := ../delphimoon
+DMOON := ../delphimoon
 ## https://github.com/wp-xyz/delphimoon
 
 UNITS := units
@@ -9,7 +9,7 @@ SOURCES := $(wildcard *.pas)
 TARGETS := $(SOURCES:%.pas=%)
 
 PFLAGS := -Mobjfpc -Sh
-PFLAGS += -Fu$(DM)
+PFLAGS += -Fu$(DMOON)
 PFLAGS += -FU$(UNITS)
 PFLAGS += -vq
 PFLAGS += -vm5025
@@ -18,8 +18,8 @@ PFLAGS += -vm5027
 default: out/eclipses.md
 all: $(TARGETS)
 
-$(DM):
-	$(warning Directory not found: $(DM))
+$(DMOON):
+	$(warning Directory not found: $(DMOON))
 	$(error Please provide a valid path to DelphiMoon units)
 
 ifeq ($(OS),Windows_NT)
@@ -32,11 +32,18 @@ $(UNITS) $(OUT):
 	$(info Create directory: $@)
 	$(call MKDIR,$@)
 
-%: %.pas $(DM) $(UNITS) Makefile
+%: %.pas $(DMOON) $(UNITS) Makefile
 	@fpc $(PFLAGS) $<
 
-out/eclipses.md: eclipses $(OUT)
-	./$< > $@
+$(OUT)/eclipses.md: eclipses $(OUT)
+	cp -fv templates/head.md $@
+	./$< >> $@
+
+$(OUT)/eclipses.html: eclipses $(OUT)
+	cp -fv templates/head.html $@
+	./$< >> $@
+	cat templates/foot.html >> $@
+	cp -uv templates/style.css $(OUT)
 
 clean:
 	@rm -fv $(UNITS)/*.o $(UNITS)/*.ppu

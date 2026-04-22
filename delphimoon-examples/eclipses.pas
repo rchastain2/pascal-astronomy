@@ -1,40 +1,44 @@
 
 program Eclipses;
 
-{ Date of solar eclipses for the 21st century. }
+{ Date of solar eclipses }
 
 uses
   SysUtils, Classes,
   Moon; { https://github.com/wp-xyz/delphimoon }
 
 const
-  CYear1 = 2000;
-  CYear2 = 2099;
-  CSolarEclipses = TRUE;
-  CFrenchName: array[TEclipse] of string = ('', 'partielle', 'non centrale', 'annulaire', 'hybride', 'totale', 'pénombrale');
-  
+  CFrench: array[TEclipse] of string = (
+    { none          } '',
+    { partial       } 'partielle',
+    { noncentral    } 'non centrale',
+    { circular      } 'annulaire',
+    { circulartotal } 'hybride',
+    { total         } 'totale',
+    { halfshadow    } 'pénombrale'
+  );
+
+{$DEFINE HTML}
+
+const
+  CFormat = {$IFDEF HTML}'<tr><td>%s</td><td>%s</td></tr>'{$ELSE}'%s | %s'{$ENDIF};
+  CSolarEclipse = TRUE;
+
 var
-  dt, fromDate, toDate: TDateTime;
-  eclipseValue: TEclipse;
+  fromDate, toDate, dt: TDateTime;
+  ec: TEclipse;
   
 begin
   DefaultFormatSettings.DateSeparator := '/';
   
-  fromDate := EncodeDate(CYear1, 1, 1);
-  toDate := EncodeDate(CYear2, 12, 31);
-  
-  WriteLn('# Éclipses');
-  WriteLn;
-  WriteLn('Prévision des éclipses solaires pour le XXI<sup>e</sup> siècle, basée sur l''unité [Moon](https://github.com/wp-xyz/delphimoon) d''Andreas Hörstemeier.');
-  WriteLn;
-  WriteLn('Date et heure | Type d''éclipse');
-  WriteLn(':---: | :---:');
+  fromDate := EncodeDate(CurrentYear, 1, 1);
+  toDate   := EncodeDate(2049, 12, 31);
   
   dt := fromDate;
   repeat
-    eclipseValue := NextEclipse(dt, CSolarEclipses);
+    ec := NextEclipse(dt, CSolarEclipse);
     if dt <= toDate then
-      WriteLn(Format('%s | %s', [FormatDateTime('dd/mm/yyyy hh:nn', dt), CFrenchName[eclipseValue]]));
+      WriteLn(Format(CFormat, [FormatDateTime('dd/mm/yyyy hh:nn', dt), CFrench[ec]]));
     dt := dt + 24;
   until dt >= toDate;
 end.
