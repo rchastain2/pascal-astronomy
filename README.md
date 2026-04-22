@@ -2,4 +2,11 @@
 
 Astronomy related Pascal programs.
 
-## [DelphiMoon examples](delphimoon-examples)
+## Summary
+
+- [DelphiMoon examples](delphimoon-examples)
+
+## Links
+
+- [DelphiMoon](https://github.com/wp-xyz/delphimoon)
+- [Astronomy links](https://github.com/rchastain2/astronomy-links)
