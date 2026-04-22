@@ -18,7 +18,7 @@ const
     { halfshadow    } 'pénombrale'
   );
 
-{$DEFINE HTML}
+{.$DEFINE HTML}
 
 const
   CFormat = {$IFDEF HTML}'<tr><td>%s</td><td>%s</td></tr>'{$ELSE}'%s | %s'{$ENDIF};

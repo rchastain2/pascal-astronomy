@@ -15,7 +15,13 @@ PFLAGS += -vq
 PFLAGS += -vm5025
 PFLAGS += -vm5027
 
+ifdef HTML
+PFLAGS += -dHTML
+default: $(OUT)/eclipses.html
+else
 default: $(OUT)/eclipses.md
+endif
+
 all: $(TARGETS)
 
 $(DMOON):
@@ -33,7 +39,7 @@ $(UNITS) $(OUT):
 	$(call MKDIR,$@)
 
 %: %.pas $(DMOON) $(UNITS) Makefile
-	@fpc $(PFLAGS) $<
+	fpc $(PFLAGS) $<
 
 $(OUT)/eclipses.md: eclipses $(OUT)
 	cp -fv templates/head.md $@
@@ -51,7 +57,7 @@ DOC.md:
 	cat doc/*.md >> $@
 
 clean:
-	@rm -fv $(UNITS)/*.o $(UNITS)/*.ppu
+	rm -fv $(UNITS)/*.o $(UNITS)/*.ppu
 
 distclean: clean
-	@rm -fv $(TARGETS) *.exe
+	rm -fv $(TARGETS) *.exe

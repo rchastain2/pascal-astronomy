@@ -4,57 +4,57 @@ Date des éclipses solaires jusqu'en 2049. Données obtenues au moyen de l'unit�
 
 Date et heure | Type d'éclipse
 :---: | :---:
-<tr><td>17/02/2026 12:13</td><td>annulaire</td></tr>
-<tr><td>12/08/2026 17:47</td><td>totale</td></tr>
-<tr><td>06/02/2027 16:01</td><td>annulaire</td></tr>
-<tr><td>02/08/2027 10:08</td><td>totale</td></tr>
-<tr><td>26/01/2028 15:09</td><td>annulaire</td></tr>
-<tr><td>22/07/2028 02:57</td><td>totale</td></tr>
-<tr><td>14/01/2029 17:13</td><td>partielle</td></tr>
-<tr><td>12/06/2029 04:07</td><td>partielle</td></tr>
-<tr><td>11/07/2029 15:38</td><td>partielle</td></tr>
-<tr><td>05/12/2029 15:04</td><td>partielle</td></tr>
-<tr><td>01/06/2030 06:29</td><td>annulaire</td></tr>
-<tr><td>25/11/2030 06:51</td><td>totale</td></tr>
-<tr><td>21/05/2031 07:16</td><td>annulaire</td></tr>
-<tr><td>14/11/2031 21:08</td><td>hybride</td></tr>
-<tr><td>09/05/2032 13:26</td><td>annulaire</td></tr>
-<tr><td>03/11/2032 05:35</td><td>partielle</td></tr>
-<tr><td>30/03/2033 18:02</td><td>totale</td></tr>
-<tr><td>23/09/2033 13:54</td><td>partielle</td></tr>
-<tr><td>20/03/2034 10:19</td><td>totale</td></tr>
-<tr><td>12/09/2034 16:19</td><td>annulaire</td></tr>
-<tr><td>09/03/2035 23:06</td><td>annulaire</td></tr>
-<tr><td>02/09/2035 01:57</td><td>totale</td></tr>
-<tr><td>27/02/2036 04:47</td><td>partielle</td></tr>
-<tr><td>23/07/2036 10:32</td><td>partielle</td></tr>
-<tr><td>21/08/2036 17:26</td><td>partielle</td></tr>
-<tr><td>16/01/2037 09:49</td><td>partielle</td></tr>
-<tr><td>13/07/2037 02:41</td><td>totale</td></tr>
-<tr><td>05/01/2038 13:47</td><td>annulaire</td></tr>
-<tr><td>02/07/2038 13:32</td><td>annulaire</td></tr>
-<tr><td>26/12/2038 01:01</td><td>totale</td></tr>
-<tr><td>21/06/2039 17:13</td><td>annulaire</td></tr>
-<tr><td>15/12/2039 16:23</td><td>totale</td></tr>
-<tr><td>11/05/2040 03:43</td><td>partielle</td></tr>
-<tr><td>04/11/2040 19:09</td><td>partielle</td></tr>
-<tr><td>30/04/2041 11:52</td><td>totale</td></tr>
-<tr><td>25/10/2041 01:36</td><td>annulaire</td></tr>
-<tr><td>20/04/2042 02:18</td><td>totale</td></tr>
-<tr><td>14/10/2042 02:01</td><td>annulaire</td></tr>
-<tr><td>09/04/2043 18:57</td><td>non centrale</td></tr>
-<tr><td>03/10/2043 03:02</td><td>non centrale</td></tr>
-<tr><td>28/02/2044 20:24</td><td>annulaire</td></tr>
-<tr><td>23/08/2044 01:17</td><td>totale</td></tr>
-<tr><td>16/02/2045 23:56</td><td>annulaire</td></tr>
-<tr><td>12/08/2045 17:43</td><td>totale</td></tr>
-<tr><td>05/02/2046 23:07</td><td>annulaire</td></tr>
-<tr><td>02/08/2046 10:21</td><td>totale</td></tr>
-<tr><td>26/01/2047 01:34</td><td>partielle</td></tr>
-<tr><td>23/06/2047 10:52</td><td>partielle</td></tr>
-<tr><td>22/07/2047 22:36</td><td>partielle</td></tr>
-<tr><td>16/12/2047 23:50</td><td>partielle</td></tr>
-<tr><td>11/06/2048 12:59</td><td>annulaire</td></tr>
-<tr><td>05/12/2048 15:35</td><td>totale</td></tr>
-<tr><td>31/05/2049 14:00</td><td>annulaire</td></tr>
-<tr><td>25/11/2049 05:33</td><td>hybride</td></tr>
+17/02/2026 12:13 | annulaire
+12/08/2026 17:47 | totale
+06/02/2027 16:01 | annulaire
+02/08/2027 10:08 | totale
+26/01/2028 15:09 | annulaire
+22/07/2028 02:57 | totale
+14/01/2029 17:13 | partielle
+12/06/2029 04:07 | partielle
+11/07/2029 15:38 | partielle
+05/12/2029 15:04 | partielle
+01/06/2030 06:29 | annulaire
+25/11/2030 06:51 | totale
+21/05/2031 07:16 | annulaire
+14/11/2031 21:08 | hybride
+09/05/2032 13:26 | annulaire
+03/11/2032 05:35 | partielle
+30/03/2033 18:02 | totale
+23/09/2033 13:54 | partielle
+20/03/2034 10:19 | totale
+12/09/2034 16:19 | annulaire
+09/03/2035 23:06 | annulaire
+02/09/2035 01:57 | totale
+27/02/2036 04:47 | partielle
+23/07/2036 10:32 | partielle
+21/08/2036 17:26 | partielle
+16/01/2037 09:49 | partielle
+13/07/2037 02:41 | totale
+05/01/2038 13:47 | annulaire
+02/07/2038 13:32 | annulaire
+26/12/2038 01:01 | totale
+21/06/2039 17:13 | annulaire
+15/12/2039 16:23 | totale
+11/05/2040 03:43 | partielle
+04/11/2040 19:09 | partielle
+30/04/2041 11:52 | totale
+25/10/2041 01:36 | annulaire
+20/04/2042 02:18 | totale
+14/10/2042 02:01 | annulaire
+09/04/2043 18:57 | non centrale
+03/10/2043 03:02 | non centrale
+28/02/2044 20:24 | annulaire
+23/08/2044 01:17 | totale
+16/02/2045 23:56 | annulaire
+12/08/2045 17:43 | totale
+05/02/2046 23:07 | annulaire
+02/08/2046 10:21 | totale
+26/01/2047 01:34 | partielle
+23/06/2047 10:52 | partielle
+22/07/2047 22:36 | partielle
+16/12/2047 23:50 | partielle
+11/06/2048 12:59 | annulaire
+05/12/2048 15:35 | totale
+31/05/2049 14:00 | annulaire
+25/11/2049 05:33 | hybride
