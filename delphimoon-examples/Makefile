@@ -45,6 +45,11 @@ $(OUT)/eclipses.html: eclipses $(OUT)
 	cat templates/foot.html >> $@
 	cp -uv templates/style.css $(OUT)
 
+.PHONY: DOC.md
+DOC.md:
+	printf '\n%s\n' '# DelphiMoon documentation' > $@
+	cat doc/*.md >> $@
+
 clean:
 	@rm -fv $(UNITS)/*.o $(UNITS)/*.ppu
 
