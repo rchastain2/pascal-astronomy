@@ -8,6 +8,11 @@ uses
   Moon; { https://github.com/wp-xyz/delphimoon }
 
 const
+  CSolarEclipse = TRUE; { Uniquement les éclipses solaires }
+
+{$DEFINE FRENCH}
+{$IFDEF FRENCH}
+const
   CFrench: array[TEclipse] of string = (
     { none          } '',
     { partial       } 'partielle',
@@ -17,28 +22,27 @@ const
     { total         } 'totale',
     { halfshadow    } 'pénombrale'
   );
-
-{.$DEFINE HTML}
-
-const
-  CFormat = {$IFDEF HTML}'<tr><td>%s</td><td>%s</td></tr>'{$ELSE}'%s | %s'{$ENDIF};
-  CSolarEclipse = TRUE;
+{$ENDIF}
 
 var
   fromDate, toDate, dt: TDateTime;
-  ec: TEclipse;
+  ecl: TEclipse;
   
 begin
-  DefaultFormatSettings.DateSeparator := '/';
-  
   fromDate := EncodeDate(CurrentYear, 1, 1);
-  toDate   := EncodeDate(2049, 12, 31);
+  toDate   := EncodeDate(2099, 12, 31);
   
   dt := fromDate;
   repeat
-    ec := NextEclipse(dt, CSolarEclipse);
+    ecl := NextEclipse(dt, CSolarEclipse);
     if dt <= toDate then
-      WriteLn(Format(CFormat, [FormatDateTime('dd/mm/yyyy hh:nn', dt), CFrench[ec]]));
+      WriteLn(
+        {$IFDEF FRENCH}
+        FormatDateTime('dd"/"mm"/"yyyy hh:nn', dt), ' ', CFrench[ecl]
+        {$ELSE}
+        FormatDateTime('dd-mm-yyyy hh:nn', dt), ' ', ecl
+        {$ENDIF}
+      );
     dt := dt + 24;
   until dt >= toDate;
 end.
