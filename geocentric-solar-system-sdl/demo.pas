@@ -14,7 +14,7 @@ uses
 const
   globalScale   = 2;
   speedScale    = 0.5 * globalScale;
-  distanceScale = 35 * globalScale;
+  distanceScale = 30 * globalScale;
   radiusScale   = 0.3 * globalScale;
   CFrameDuration = 1000 / 60;
 
@@ -137,8 +137,8 @@ var
   
   w, h: integer;
   loop: boolean = TRUE;
-  startTime: qword;
-  
+  startTime, frameStart, frameTime: qword;
+
 begin
   if SDL_Init(SDL_INIT_VIDEO) < 0 then
     Fail('SDL_Init');
@@ -166,7 +166,9 @@ begin
   
   New(agg, Construct);
   agg^.attach(pbyte(s1^.pixels), s1^.w, s1^.h, s1^.pitch);
-  
+  agg^.noLine;
+  agg^.clearAll(18, 18, 18);
+
   earth := TPlanet.Create(agg, $8BC3F7, 3);
   moon := TPlanet.Create(agg, $D3D3D3, 1, earth, 0.002, 27);
   sun := TPlanet.Create(agg, $F8ED93, 16, earth, 1, 365);
@@ -194,14 +196,20 @@ begin
           loop := FALSE;
       end;
     
-    agg^.clearAll(0, 0, 0);
-    
-    earth.Move(GetTickCount64 - startTime);
-    
+    frameStart := GetTickCount64;
+
+    agg^.fillColor(18, 18, 18, 128);
+    agg^.rectangle(0, 0, w, h);
+
+    earth.Move(frameStart - startTime);
+
     SDL_UpdateTexture(t1, nil, s1^.pixels, s1^.pitch);
     SDL_RenderCopy(r1, t1, nil, nil);
     SDL_RenderPresent(r1);
-    SDL_Delay(24);
+
+    frameTime := GetTickCount64 - frameStart;
+    if frameTime < CFrameDuration then
+      SDL_Delay(Round(CFrameDuration - frameTime));
   end;
   
   Dispose(e1);

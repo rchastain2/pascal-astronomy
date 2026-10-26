@@ -4,6 +4,10 @@ Geocentric animated representation of the solar system.
 
 Pascal version of this [JavaScript program](https://github.com/Kharoh/Geocentric-Solar-System.git).
 
+## Rendering
+
+Like the original, the program does not clear the screen between frames: it covers the previous frame with a semi-transparent dark grey veil (`rgba(18, 18, 18, 0.5)`), so that moving bodies leave a short fading trail.
+
 ## Build
 
 In *Makefile*, correct the paths to the [SDL2][1] and [AGGPas][2] units (depending on your installation), then:
