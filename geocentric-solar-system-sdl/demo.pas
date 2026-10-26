@@ -143,7 +143,7 @@ begin
   if SDL_Init(SDL_INIT_VIDEO) < 0 then
     Fail('SDL_Init');
 
-  w1 := SDL_CreateWindow(CTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SURFACE_WIDTH, SURFACE_HEIGHT, SDL_WINDOW_SHOWN or SDL_WINDOW_FULLSCREEN_DESKTOP);
+  w1 := SDL_CreateWindow(CTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SURFACE_WIDTH, SURFACE_HEIGHT, SDL_WINDOW_HIDDEN or SDL_WINDOW_FULLSCREEN_DESKTOP);
   if w1 = nil then
     Fail('SDL_CreateWindow');
   
@@ -168,6 +168,15 @@ begin
   agg^.attach(pbyte(s1^.pixels), s1^.w, s1^.h, s1^.pitch);
   agg^.noLine;
   agg^.clearAll(18, 18, 18);
+
+  SDL_UpdateTexture(t1, nil, s1^.pixels, s1^.pitch);
+  SDL_RenderCopy(r1, t1, nil, nil);
+  SDL_RenderPresent(r1);
+  SDL_ShowWindow(w1);
+  SDL_PumpEvents;
+
+  SDL_RenderCopy(r1, t1, nil, nil);
+  SDL_RenderPresent(r1);
 
   earth := TPlanet.Create(agg, $8BC3F7, 3);
   moon := TPlanet.Create(agg, $D3D3D3, 1, earth, 0.002, 27);
