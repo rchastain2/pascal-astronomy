@@ -16,6 +16,7 @@ const
   speedScale    = 0.5 * globalScale;
   distanceScale = 35 * globalScale;
   radiusScale   = 0.3 * globalScale;
+  CFrameDuration = 1000 / 60;
 
 var
   XCenter, YCenter: double;
@@ -37,7 +38,7 @@ type
     constructor Create(agg_: Agg2D_ptr; color_: longword; radius_: double; centerObject_: TPlanet = nil; distance_: double = 0; period_: integer = 0);
     destructor Destroy; override;
     procedure Render();
-    procedure Move();
+    procedure Move(const AElapsed: double);
     procedure RegisterChild(planet: TPlanet);
   end;
 
@@ -75,6 +76,7 @@ end;
 destructor TPlanet.Destroy;
 begin
   children.Free;
+  inherited Destroy;
 end;
 
 procedure TPlanet.Render();
@@ -84,7 +86,7 @@ begin
   agg^.arc(x, y, radius, radius, 0, 2 * PI);
 end;
 
-procedure TPlanet.Move();
+procedure TPlanet.Move(const AElapsed: double);
 var
   i: integer;
 begin
@@ -94,14 +96,14 @@ begin
     y := YCenter;
   end else
   begin
-    argument := argument + speed;
+    argument := speed * AElapsed / CFrameDuration;
     x := Cos(argument) * distance + centerObject.x;
     y := Sin(argument) * distance + centerObject.y;
   end;
 
   Render();
   for i := 0 to Pred(children.Count) do
-    TPlanet(children.Items[i]).Move();
+    TPlanet(children.Items[i]).Move(AElapsed);
 end;
 
 procedure TPlanet.RegisterChild(planet: TPlanet);
@@ -112,8 +114,16 @@ end;
 (* -------------------------------------------------------------------------- *)
 
 const
+  CTitle = 'Geocentric Solar System';
   SURFACE_WIDTH = 1600;
   SURFACE_HEIGHT = 900;
+
+procedure Fail(const AMessage: string);
+begin
+  WriteLn(AMessage, ': ', SDL_GetError);
+  SDL_Quit;
+  Halt(1);
+end;
 
 var
   w1: pSDL_Window;
@@ -127,28 +137,35 @@ var
   
   w, h: integer;
   loop: boolean = TRUE;
+  startTime: qword;
   
 begin
   if SDL_Init(SDL_INIT_VIDEO) < 0 then
-    Halt;
+    Fail('SDL_Init');
 
-  w1 := SDL_CreateWindow('SDL2 Cairo example', SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SURFACE_WIDTH, SURFACE_HEIGHT, SDL_WINDOW_SHOWN or SDL_WINDOW_FULLSCREEN_DESKTOP);
-
-  SDL_GetWindowSize(w1, @w, @h);
-  WriteLn(Format('window_width=%d window_height=%d', [w, h]));
+  w1 := SDL_CreateWindow(CTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SURFACE_WIDTH, SURFACE_HEIGHT, SDL_WINDOW_SHOWN or SDL_WINDOW_FULLSCREEN_DESKTOP);
+  if w1 = nil then
+    Fail('SDL_CreateWindow');
+  
+  r1 := SDL_CreateRenderer(w1, -1, 0);
+  if r1 = nil then
+    Fail('SDL_CreateRenderer');
+  
+  SDL_GetRendererOutputSize(r1, @w, @h);
   
   XCenter := w / 2;
   YCenter := h / 2;
   
-  r1 := SDL_CreateRenderer(w1, -1, 0);
-  
-  SDL_GetRendererOutputSize(r1, @w, @h);
-  WriteLn(Format('renderer_width=%d renderer_height=%d', [w, h]));
-  
   s1 := SDL_CreateRGBSurface(0, w, h, 32, $00FF0000, $0000FF00, $000000FF, 0);
+  if s1 = nil then
+    Fail('SDL_CreateRGBSurface');
+  
+  t1 := SDL_CreateTexture(r1, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, w, h);
+  if t1 = nil then
+    Fail('SDL_CreateTexture');
   
   New(agg, Construct);
-  agg^.attach(pbyte(s1^.pixels), s1^.w, s1^.h, s1^.w * 4);
+  agg^.attach(pbyte(s1^.pixels), s1^.w, s1^.h, s1^.pitch);
   
   earth := TPlanet.Create(agg, $8BC3F7, 3);
   moon := TPlanet.Create(agg, $D3D3D3, 1, earth, 0.002, 27);
@@ -162,6 +179,8 @@ begin
   neptune := TPlanet.Create(agg, $C6D3E3, 10, sun, 30, 49275);
   
   New(e1);
+  
+  startTime := GetTickCount64;
   
   while loop do
   begin
@@ -177,17 +196,17 @@ begin
     
     agg^.clearAll(0, 0, 0);
     
-    earth.Move();
+    earth.Move(GetTickCount64 - startTime);
     
-    t1 := SDL_CreateTextureFromSurface(r1, s1);
+    SDL_UpdateTexture(t1, nil, s1^.pixels, s1^.pitch);
     SDL_RenderCopy(r1, t1, nil, nil);
-    SDL_DestroyTexture(t1);
     SDL_RenderPresent(r1);
     SDL_Delay(24);
   end;
   
   Dispose(e1);
   
+  SDL_DestroyTexture(t1);
   SDL_FreeSurface(s1);
   
   earth.Free;

@@ -1,7 +1,7 @@
 
 PC := fpc
 
-SDL2 := ~/Documents/pascal/sources/sdl2/units
+SDL2 := ~/Documents/sources/sdl2/units
 # https://github.com/PascalGameDevelopment/SDL2-for-Pascal
 # git clone https://github.com/PascalGameDevelopment/SDL2-for-Pascal.git
 
@@ -11,7 +11,7 @@ LAZARUS := ~/Documents/sources/lazarus
 # git clone https://gitlab.com/freepascal.org/lazarus/lazarus.git
 AGGPAS := $(LAZARUS)/components/aggpas/src
 else
-FPGUI := ~/Documents/pascal/sources/fpgui/develop
+FPGUI := ~/Documents/sources/fpgui
 # https://github.com/graemeg/fpGUI
 # git clone https://github.com/graemeg/fpGUI.git
 AGGPAS := $(FPGUI)/framework/src/main/pascal/corelib/render/software
