@@ -18,6 +18,7 @@ const
   speedScale    = 0.5 * globalScale;
   distanceScale = 35 * globalScale;
   radiusScale   = 0.3 * globalScale;
+  CFrameDuration = 1000 / 60;
 
 var
   XCenter, YCenter: double;
@@ -39,7 +40,7 @@ type
     constructor Create(agg_: Agg2D_ptr; color_: longword; radius_: double; centerObject_: TPlanet = nil; distance_: double = 0; period_: integer = 0);
     destructor Destroy; override;
     procedure Render();
-    procedure Move();
+    procedure Move(const AElapsed: double);
     procedure RegisterChild(planet: TPlanet);
   end;
 
@@ -77,6 +78,7 @@ end;
 destructor TPlanet.Destroy;
 begin
   children.Free;
+  inherited Destroy;
 end;
 
 procedure TPlanet.Render();
@@ -86,7 +88,7 @@ begin
   agg^.arc(x, y, radius, radius, 0, 2 * PI);
 end;
 
-procedure TPlanet.Move();
+procedure TPlanet.Move(const AElapsed: double);
 var
   i: integer;
 begin
@@ -96,14 +98,14 @@ begin
     y := YCenter;
   end else
   begin
-    argument := argument + speed;
+    argument := speed * AElapsed / CFrameDuration;
     x := Cos(argument) * distance + centerObject.x;
     y := Sin(argument) * distance + centerObject.y;
   end;
 
   Render();
   for i := 0 to Pred(children.Count) do
-    TPlanet(children.Items[i]).Move();
+    TPlanet(children.Items[i]).Move(AElapsed);
 end;
 
 procedure TPlanet.RegisterChild(planet: TPlanet);
@@ -125,6 +127,8 @@ var
 var
   console: IPTCConsole;
   format: IPTCFormat;
+  palette: IPTCPalette;
+  startTime: qword;
   pixels: PUint32 = nil;
   agg: Agg2D_ptr;
   earth, moon, sun, mercury, venus, mars, jupiter, saturne, uranus, neptune: TPlanet;
@@ -134,9 +138,7 @@ begin
   format := TPTCFormatFactory.CreateNew(32, $00FF0000, $0000FF00, $000000FF);
   console.option('fullscreen output');
   
-  if GetDimensions(LWidth, LHeight) then
-    WriteLn(LWidth, 'x', LHeight)
-  else
+  if not GetDimensions(LWidth, LHeight) then
   begin
     LWidth := CWidth;
     LHeight := CHeight;
@@ -165,11 +167,14 @@ begin
   uranus := TPlanet.Create(agg, $D1E7E7, 10, sun, 19.6, 30660);
   neptune := TPlanet.Create(agg, $C6D3E3, 10, sun, 30, 49275);
   
+  palette := TPTCPaletteFactory.CreateNew;
+  startTime := GetTickCount64;
+
   while not console.KeyPressed do
   begin
     agg^.clearAll(0, 0, 0);
-    earth.Move();
-    console.Load(pixels, console.width, console.height, console.width * 4, format, TPTCPaletteFactory.CreateNew);
+    earth.Move(GetTickCount64 - startTime);
+    console.Load(pixels, console.width, console.height, console.width * 4, format, palette);
     console.update;
     Sleep(CDelay);
   end;
