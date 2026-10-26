@@ -16,7 +16,7 @@ uses
 const
   globalScale   = 2;
   speedScale    = 0.5 * globalScale;
-  distanceScale = 35 * globalScale;
+  distanceScale = 30 * globalScale;
   radiusScale   = 0.3 * globalScale;
   CFrameDuration = 1000 / 60;
 
@@ -117,7 +117,6 @@ end;
 
 const
   CTitle = 'Geocentric Solar System';
-  CDelay = 8;
   CWidth = 1600;
   CHeight = 900;
   
@@ -128,7 +127,7 @@ var
   console: IPTCConsole;
   format: IPTCFormat;
   palette: IPTCPalette;
-  startTime: qword;
+  startTime, frameStart, frameTime: qword;
   pixels: PUint32 = nil;
   agg: Agg2D_ptr;
   earth, moon, sun, mercury, venus, mars, jupiter, saturne, uranus, neptune: TPlanet;
@@ -155,7 +154,8 @@ begin
   New(agg, Construct);
   agg^.attach(pbyte(pixels), console.width, console.height, console.width * 4);
   agg^.noLine;
-  
+  agg^.clearAll(18, 18, 18);
+
   earth := TPlanet.Create(agg, $8BC3F7, 3);
   moon := TPlanet.Create(agg, $D3D3D3, 1, earth, 0.002, 27);
   sun := TPlanet.Create(agg, $F8ED93, 16, earth, 1, 365);
@@ -172,11 +172,15 @@ begin
 
   while not console.KeyPressed do
   begin
-    agg^.clearAll(0, 0, 0);
-    earth.Move(GetTickCount64 - startTime);
+    frameStart := GetTickCount64;
+    agg^.fillColor(18, 18, 18, 128);
+    agg^.rectangle(0, 0, console.width, console.height);
+    earth.Move(frameStart - startTime);
     console.Load(pixels, console.width, console.height, console.width * 4, format, palette);
     console.update;
-    Sleep(CDelay);
+    frameTime := GetTickCount64 - frameStart;
+    if frameTime < CFrameDuration then
+      Sleep(Round(CFrameDuration - frameTime));
   end;
   
   earth.Free;
